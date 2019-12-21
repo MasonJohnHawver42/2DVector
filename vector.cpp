@@ -53,6 +53,8 @@ public:
   static Vector<double>* radianToVector(double rad);
   static Vector<double>* degreeToVector(double ang);
 
+  bool equal(Vector<T> * other);
+
 
 };
 
@@ -149,5 +151,6 @@ template<class T> double Vector<T>::getRad() {
 template<class T> Vector<double>* Vector<T>::radianToVector(double rad) { return new Vector<double>(cos(rad), sin(rad)); }
 template<class T> Vector<double>* Vector<T>::degreeToVector(double ang) { return radianToVector((ang * M_PI) / 180.0); }
 
+template<class T> bool Vector<T>::equal(Vector<T> * other) { return ( x == other->getX() && y == other->getY() ); }
 
 template<class T> void Vector<T>::toString() { std::cout << "Vector:[x=" << x << ", y=" << y << "]"<< '\n';}
