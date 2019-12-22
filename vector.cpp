@@ -144,7 +144,12 @@ template<class T> void Vector<T>::turn(double rad) {
 //--
 template<class T> double Vector<T>::getRad() {
   int flip = (int)(abs(x) / x) - 1;
-  return atan(y / x) + ((M_PI / 2) * flip) - (M_PI / 2);
+  double rad = atan(y / x) + ((M_PI / 2) * flip) - (M_PI / 2);
+
+  double tau = M_PI * 2;
+
+  rad = abs(rad) - (tau * floor(abs(rad) / tau));
+  return rad;
 }
 
 
