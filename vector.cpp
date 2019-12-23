@@ -148,7 +148,7 @@ template<class T> double Vector<T>::getRad() {
 
   double tau = M_PI * 2;
 
-  rad = abs(rad) - (tau * floor(abs(rad) / tau));
+  rad = rad - (tau * floor(rad / tau));
   return rad;
 }
 
