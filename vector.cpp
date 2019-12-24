@@ -36,6 +36,11 @@ public:
   void mult(double val);
   void div(double val);
 
+  static Vector<T> * add(Vector<T> v1, Vector<T> v2);
+  static Vector<T> * sub(Vector<T> v1, Vector<T> v2);
+  static Vector<T> * mult(Vector<T> v1, Vector<T> v2);
+  static Vector<T> * div(Vector<T> v1, Vector<T> v2);
+
   double getDis(Vector<T> other);
 
   void perp();
@@ -92,8 +97,12 @@ template<class T> void Vector<T>::mult(Vector<T> other) {
 }
 
 template<class T> void Vector<T>::div(Vector<T> other) {
-  x /= other.getX();
-  y /= other.getY();
+
+  if( other.getX() != 0 ) { x /= other.getX(); }
+  else { x = 0; }
+
+  if( other.getY() != 0 ) { y /= other.getY(); }
+  else { y = 0; }
 }
 
 // --
@@ -114,8 +123,44 @@ template<class T> void Vector<T>::mult(double val) {
 }
 
 template<class T> void Vector<T>::div(double val) {
-  y /= val;
-  x /= val;
+  if (val != 0) {
+    y /= val;
+    x /= val;
+  }
+  else { x = 0; y = 0; }
+}
+
+// --
+template<class T> Vector<T> * Vector<T>::add(Vector<T> v1, Vector<T> v2) {
+  T x = v1.getX() + v2.getX();
+  T y = v1.getY() + v2.getY();
+
+  return ( new Vector<T>(x, y) );
+}
+
+template<class T> Vector<T> * Vector<T>::sub(Vector<T> v1, Vector<T> v2) {
+  T x = v1.getX() - v2.getX();
+  T y = v1.getY() - v2.getY();
+
+  return ( new Vector<T>(x, y) );
+}
+
+template<class T> Vector<T> * Vector<T>::mult(Vector<T> v1, Vector<T> v2) {
+  T x = v1.getX() * v2.getX();
+  T y = v1.getY() * v2.getY();
+
+  return ( new Vector<T>(x, y) );
+}
+
+template<class T> Vector<T> * Vector<T>::div(Vector<T> v1, Vector<T> v2) {
+  T x1, y1;
+  if (v2.getX() != 0) { x1 = v1.getX() / v2.getX(); }
+  else { x1 = 0;}
+
+  if (v2.getY() != 0) { y1 = v1.getY() / v2.getY(); }
+  else { y1 = 0;}
+
+  return ( new Vector<T>(x1, y1) );
 }
 
 // --
@@ -143,13 +188,8 @@ template<class T> void Vector<T>::turn(double rad) {
 
 //--
 template<class T> double Vector<T>::getRad() {
-  int flip = (int)(x / abs(x));
-  double rad = atan(y / x) + ((M_PI / 2) * flip) - (M_PI / 2);
-
-  double tau = M_PI * 2;
-
-  rad = rad - (tau * floor(rad / tau));
-  return rad;
+  int flip = (int)(abs(x) / x) - 1;
+  return atan(y / x) + ((M_PI / 2) * flip) - (M_PI / 2);
 }
 
 
