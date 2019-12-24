@@ -48,6 +48,7 @@ public:
   double getMag();
   void normalize();
   void setMag(double mag);
+  void limitMag(double mag);
 
   void turn(double rad);
 
@@ -176,6 +177,10 @@ template<class T> void Vector<T>::perp()
 
 template<class T> void Vector<T>::normalize() { div(getMag()); }
 template<class T> void Vector<T>::setMag(double mag) { normalize(); mult(mag); }
+template<class T> void Vector<T>::limitMag(double mag) {
+  double selfMag = getMag();
+  if(selfMag > mag) { div(selfMag); mult(mag); }
+}
 
 //--
 template<class T> void Vector<T>::turn(double rad) {
